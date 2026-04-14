@@ -1,10 +1,12 @@
 package com.telit.tests;
 
 import com.telit.constants.BrowserType;
+import com.telit.dataproviders.UserDataProvider;
 import com.telit.pages.HomePage;
 
 import static org.testng.Assert.*;
 
+import com.telit.pojo.User;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,12 +18,17 @@ public class LoginTest {
     homePage = new HomePage(BrowserType.CHROME);
   }
 
-  @Test(description = "Validates if user is able to login", groups = {"e2e", "sanity"})
-  public void loginTest() {
+  @Test(
+      dataProviderClass = UserDataProvider.class,
+      dataProvider = "getValidUsers",
+      description = "Validates if user is able to login",
+      groups = {"e2e", "sanity"}
+  )
+  public void loginTest(User user) {
     assertEquals(homePage
             .goToLoginPage()
-            .doLoginWith("darebi6641@agoalz.com", "Password123")
+            .doLoginWith(user.getEmailAddress(), user.getPassword())
             .getUserName()
-        , "Hitesh Kumar");
+        , user.getName());
   }
 }

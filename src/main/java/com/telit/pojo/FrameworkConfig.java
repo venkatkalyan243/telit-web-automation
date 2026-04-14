@@ -12,4 +12,11 @@ public class FrameworkConfig {
   public void setEnvironments(Map<String, EnvironmentConfig> environments) {
     this.environments = environments;
   }
+
+  @Override
+  public String toString() {
+    return "FrameworkConfig{" +
+        "environments=" + environments +
+        '}';
+  }
 }
