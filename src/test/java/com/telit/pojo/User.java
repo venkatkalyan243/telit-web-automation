@@ -1,8 +1,15 @@
 package com.telit.pojo;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class User {
+  @CsvBindByName(column = "emailAddress")
   private String emailAddress;
+
+  @CsvBindByName(column = "password")
   private String password;
+
+  @CsvBindByName(column = "name")
   private String name;
 
   public String getEmailAddress() {

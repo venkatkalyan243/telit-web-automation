@@ -6,10 +6,10 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.InputStream;
 
-public class YamlReader {
+public class YamlLoader {
 
   public static <T> T parse(String filePath, Class<T> targetClass) {
-    try (InputStream inputStream = YamlReader.class
+    try (InputStream inputStream = YamlLoader.class
         .getClassLoader()
         .getResourceAsStream(filePath)) {
 

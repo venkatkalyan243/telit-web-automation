@@ -10,7 +10,7 @@ public class ConfigLoader {
   public static FrameworkConfig getFrameworkConfig() {
     if (frameworkConfig == null) {
       try {
-        frameworkConfig = YamlReader.parse("config/config.yaml", FrameworkConfig.class);
+        frameworkConfig = YamlLoader.parse("config/config.yaml", FrameworkConfig.class);
       } catch (Exception e) {
         throw new RuntimeException("Failed to load config.yaml: " + e.getMessage());
       }
