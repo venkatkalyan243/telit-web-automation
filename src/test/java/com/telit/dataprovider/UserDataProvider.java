@@ -1,9 +1,8 @@
-package com.telit.dataproviders;
+package com.telit.dataprovider;
 
-import com.telit.pojo.LoginTestData;
-import com.telit.pojo.User;
-import com.telit.utils.CsvLoader;
-import com.telit.utils.YamlLoader;
+import com.telit.model.LoginTestData;
+import com.telit.model.User;
+import com.telit.util.DataReader;
 import org.testng.annotations.DataProvider;
 
 import java.util.Iterator;
@@ -13,7 +12,7 @@ public class UserDataProvider {
 
   @DataProvider(name = "getValidUsers")
   public Iterator<Object[]> getValidUsers() {
-    LoginTestData testDataWrapper = YamlLoader.parse("test-data/scenarios/valid-credentials.yaml", LoginTestData.class);
+    LoginTestData testDataWrapper = DataReader.fromJson("test-data/scenario/valid-credentials.json", LoginTestData.class);
 
     return testDataWrapper.getUsers().stream()
         .map(user -> new Object[]{user})
@@ -22,7 +21,7 @@ public class UserDataProvider {
 
   @DataProvider(name = "getInvalidUsers")
   public Iterator<Object[]> getInvalidUsers() {
-    List<User> userList = CsvLoader.parse("test-data/bulk/invalid-credentials.csv", User.class);
+    List<User> userList = DataReader.fromCsv("test-data/bulk/invalid-credentials.csv", User.class);
 
     return userList.stream()
         .map(user -> new Object[]{user})

@@ -1,6 +1,6 @@
-package com.telit.pages;
+package com.telit.page;
 
-import com.telit.utils.WebActions;
+import com.telit.util.WebActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 
@@ -21,7 +21,7 @@ public final class LoginPage extends WebActions {
 
   public LoginPage doLoginWithInvalidCredentials(String email, String password) {
     submitCredentials(email, password);
-    return this; // Return the current LoginPage to check for errors
+    return this;
   }
 
   private void submitCredentials(String email, String password) {

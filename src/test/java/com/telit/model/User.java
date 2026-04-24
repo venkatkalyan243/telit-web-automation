@@ -1,15 +1,15 @@
-package com.telit.pojo;
+package com.telit.model;
 
-import com.opencsv.bean.CsvBindByName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-  @CsvBindByName(column = "emailAddress")
+  @JsonProperty("emailAddress")
   private String emailAddress;
 
-  @CsvBindByName(column = "password")
+  @JsonProperty("password")
   private String password;
 
-  @CsvBindByName(column = "name")
+  @JsonProperty("name")
   private String name;
 
   public String getEmailAddress() {

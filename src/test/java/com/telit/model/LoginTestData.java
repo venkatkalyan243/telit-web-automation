@@ -1,8 +1,11 @@
-package com.telit.pojo;
+package com.telit.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class LoginTestData {
+  @JsonProperty("users")
   private List<User> users;
 
   public List<User> getUsers() {

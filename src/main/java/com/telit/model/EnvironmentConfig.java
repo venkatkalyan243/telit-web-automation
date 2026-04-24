@@ -1,6 +1,9 @@
-package com.telit.pojo;
+package com.telit.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnvironmentConfig {
+  @JsonProperty("url")
   private String url;
 
   public String getUrl() {

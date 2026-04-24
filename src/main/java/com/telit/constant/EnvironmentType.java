@@ -1,9 +1,8 @@
-package com.telit.constants;
+package com.telit.constant;
 
 public enum EnvironmentType {
-  DEV, QA, UAT;
+  QA;
 
-  // This makes sure Env.QA becomes "qa" automatically
   @Override
   public String toString() {
     return this.name().toLowerCase();

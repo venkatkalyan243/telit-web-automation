@@ -1,12 +1,13 @@
-package com.telit.tests;
+package com.telit.test;
 
-import com.telit.constants.BrowserType;
-import com.telit.dataproviders.UserDataProvider;
-import com.telit.pages.HomePage;
+import com.telit.constant.BrowserType;
+import com.telit.dataprovider.UserDataProvider;
+import com.telit.listener.RetryAnalyzer;
+import com.telit.page.HomePage;
 
 import static org.testng.Assert.*;
 
-import com.telit.pojo.User;
+import com.telit.model.User;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,7 +23,8 @@ public class LoginTest {
       dataProviderClass = UserDataProvider.class,
       dataProvider = "getValidUsers",
       description = "Validates if user is able to login",
-      groups = {"e2e", "sanity"}
+      groups = {"e2e", "sanity"},
+      retryAnalyzer = RetryAnalyzer.class
   )
   public void loginTest(User user) {
     assertEquals(homePage
@@ -36,7 +38,8 @@ public class LoginTest {
       dataProviderClass = UserDataProvider.class,
       dataProvider = "getInvalidUsers",
       description = "Validates if user is able to login",
-      groups = {"e2e", "sanity"}
+      groups = {"e2e", "sanity"},
+      retryAnalyzer = RetryAnalyzer.class
   )
   public void loginTestCsv(User user) {
     assertEquals(homePage

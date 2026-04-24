@@ -1,10 +1,9 @@
-package com.telit.pages;
+package com.telit.page;
 
-import com.telit.constants.BrowserType;
-import com.telit.constants.EnvironmentType;
-import com.telit.utils.WebActions;
-import com.telit.utils.ConfigLoader;
-
+import com.telit.constant.BrowserType;
+import com.telit.constant.EnvironmentType;
+import com.telit.util.WebActions;
+import com.telit.util.ConfigManager;
 import org.openqa.selenium.By;
 
 public final class HomePage extends WebActions {
@@ -12,13 +11,12 @@ public final class HomePage extends WebActions {
 
   public HomePage(BrowserType browserType) {
     super(browserType);
-    goToWebsite(ConfigLoader.getEnvironment(EnvironmentType.QA).getUrl());
+    goToWebsite(ConfigManager.getEnvironment(EnvironmentType.QA).getUrl());
     maximizeWindow();
   }
 
   public LoginPage goToLoginPage() {
     clickOn(SIGN_IN_LINK_LOCATOR);
-
     return new LoginPage(getDriver());
   }
 }

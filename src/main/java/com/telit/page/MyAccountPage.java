@@ -1,6 +1,6 @@
-package com.telit.pages;
+package com.telit.page;
 
-import com.telit.utils.WebActions;
+import com.telit.util.WebActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

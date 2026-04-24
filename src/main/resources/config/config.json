@@ -1,0 +1,8 @@
+{
+  "environments": {
+    "qa": {
+      "url": "https://automationpractice.techwithjatin.com/"
+    }
+  },
+  "maxRetry": 3
+}

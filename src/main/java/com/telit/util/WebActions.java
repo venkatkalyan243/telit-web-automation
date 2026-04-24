@@ -1,6 +1,6 @@
-package com.telit.utils;
+package com.telit.util;
 
-import com.telit.constants.BrowserType;
+import com.telit.constant.BrowserType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,11 +10,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 public abstract class WebActions {
   private WebDriver driver;
 
-  public WebActions(WebDriver driver) {
+  protected WebActions(WebDriver driver) {
     this.driver = driver;
   }
 
-  public WebActions(BrowserType browserType) {
+  protected WebActions(BrowserType browserType) {
     if (browserType == BrowserType.CHROME) {
       driver = new ChromeDriver();
     } else if (browserType == BrowserType.EDGE) {
