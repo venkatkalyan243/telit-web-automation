@@ -22,11 +22,11 @@ public class LoginTest {
   @Test(
       dataProviderClass = UserDataProvider.class,
       dataProvider = "getValidUsers",
-      description = "Validates if user is able to login",
+      description = "Verify successful login with valid credentials",
       groups = {"e2e", "sanity"},
       retryAnalyzer = RetryAnalyzer.class
   )
-  public void loginTest(User user) {
+  public void testLoginSuccess(User user) {
     assertEquals(homePage
             .goToLoginPage()
             .doLoginWith(user.getEmailAddress(), user.getPassword())
@@ -37,11 +37,11 @@ public class LoginTest {
   @Test(
       dataProviderClass = UserDataProvider.class,
       dataProvider = "getInvalidUsers",
-      description = "Validates if user is able to login",
+      description = "Verify error message when logging in with invalid credentials",
       groups = {"e2e", "sanity"},
       retryAnalyzer = RetryAnalyzer.class
   )
-  public void loginTestCsv(User user) {
+  public void testLoginFailure(User user) {
     assertEquals(homePage
             .goToLoginPage()
             .doLoginWithInvalidCredentials(user.getEmailAddress(), user.getPassword())
