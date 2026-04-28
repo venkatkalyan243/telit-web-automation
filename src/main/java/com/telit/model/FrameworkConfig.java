@@ -5,11 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 public class FrameworkConfig {
+  @JsonProperty("defaults")
+  private Defaults defaults;
+
   @JsonProperty("environments")
   private Map<String, EnvironmentConfig> environments;
 
   @JsonProperty("maxRetry")
   private int maxRetry;
+
+  public Defaults getDefaults() {
+    return defaults;
+  }
+
+  public void setDefaults(Defaults defaults) {
+    this.defaults = defaults;
+  }
 
   public Map<String, EnvironmentConfig> getEnvironments() {
     return environments;
@@ -30,7 +41,8 @@ public class FrameworkConfig {
   @Override
   public String toString() {
     return "FrameworkConfig{" +
-        "environments=" + environments +
+        "defaults=" + defaults +
+        ", environments=" + environments +
         ", maxRetry=" + maxRetry +
         '}';
   }

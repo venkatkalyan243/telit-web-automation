@@ -1,23 +1,17 @@
-package com.telit.test;
-
-import com.telit.constant.BrowserType;
-import com.telit.dataprovider.UserDataProvider;
-import com.telit.listener.RetryAnalyzer;
-import com.telit.page.HomePage;
+package com.telit.test.login;
 
 import static org.testng.Assert.*;
 
-import com.telit.model.User;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-public class LoginTest {
-  public HomePage homePage;
+import com.telit.dataprovider.UserDataProvider;
+import com.telit.listener.RetryAnalyzer;
+import com.telit.listener.TestListener;
+import com.telit.model.User;
 
-  @BeforeMethod(description = "Load the home page of the website")
-  public void setup() {
-    homePage = new HomePage(BrowserType.CHROME);
-  }
+@Listeners(TestListener.class)
+public class LoginTest extends BaseTest {
 
   @Test(
       dataProviderClass = UserDataProvider.class,

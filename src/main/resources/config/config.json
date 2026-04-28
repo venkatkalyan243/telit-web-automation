@@ -1,4 +1,8 @@
 {
+  "defaults": {
+    "browser": "CHROME",
+    "environment": "QA"
+  },
   "environments": {
     "qa": {
       "url": "https://automationpractice.techwithjatin.com/"

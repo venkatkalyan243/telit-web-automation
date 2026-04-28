@@ -19,18 +19,18 @@ public class DataReader {
   private DataReader() {
   }
 
-  public static <T> T fromJson(String filePath, Class<T> targetClass) {
+  public static <T> T fromJson(String filePath, Class<T> clazz) {
     try (InputStream inputStream = getStream(filePath)) {
-      return JSON_MAPPER.readValue(inputStream, targetClass);
+      return JSON_MAPPER.readValue(inputStream, clazz);
     } catch (IOException e) {
       throw new RuntimeException("CRITICAL: Failed to load JSON data: " + filePath, e);
     }
   }
 
-  public static <T> List<T> fromCsv(String filePath, Class<T> targetClass) {
+  public static <T> List<T> fromCsv(String filePath, Class<T> clazz) {
     try (InputStream inputStream = getStream(filePath)) {
       CsvSchema schema = CsvSchema.emptySchema().withHeader();
-      return CSV_MAPPER.readerFor(targetClass).with(schema).<T>readValues(inputStream).readAll();
+      return CSV_MAPPER.readerFor(clazz).with(schema).<T>readValues(inputStream).readAll();
     } catch (IOException e) {
       throw new RuntimeException("CRITICAL: Failed to load CSV data: " + filePath, e);
     }

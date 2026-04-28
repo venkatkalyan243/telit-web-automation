@@ -1,22 +1,20 @@
 package com.telit.page;
 
-import com.telit.util.WebActions;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 
-public final class LoginPage extends WebActions {
+public final class LoginPage extends BasePage {
   private static final By EMAIL_ADDRESS_TEXT_BOX_LOCATOR = By.id("email");
   private static final By PASSWORD_TEXT_BOX_LOCATOR = By.id("passwd");
   private static final By SIGN_IN_BUTTON_LOCATOR = By.id("SubmitLogin");
   private static final By ERR_MSG_TXT_LOCATOR = By.xpath("//div[@class = 'alert alert-danger']/ol/li");
 
-  public LoginPage(WebDriver driver) {
-    super(driver);
+  public LoginPage() {
+    super();
   }
 
   public MyAccountPage doLoginWith(String email, String password) {
     submitCredentials(email, password);
-    return new MyAccountPage(getDriver());
+    return new MyAccountPage();
   }
 
   public LoginPage doLoginWithInvalidCredentials(String email, String password) {

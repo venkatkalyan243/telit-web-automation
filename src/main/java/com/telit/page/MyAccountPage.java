@@ -1,14 +1,12 @@
 package com.telit.page;
 
-import com.telit.util.WebActions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-public final class MyAccountPage extends WebActions {
+public final class MyAccountPage extends BasePage {
   private static final By USER_ACCOUNT_LINK_LOCATOR = By.xpath("//a[@title = 'View my customer account']/span");
 
-  public MyAccountPage(WebDriver driver) {
-    super(driver);
+  public MyAccountPage() {
+    super();
   }
 
   public String getUserName() {

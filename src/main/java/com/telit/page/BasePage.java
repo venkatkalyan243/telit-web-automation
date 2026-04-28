@@ -1,37 +1,15 @@
-package com.telit.util;
+package com.telit.page;
 
-import com.telit.constant.BrowserType;
+import com.telit.util.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 
-public abstract class WebActions {
-  private WebDriver driver;
+public abstract class BasePage {
+  protected WebDriver driver;
 
-  protected WebActions(WebDriver driver) {
-    this.driver = driver;
-  }
-
-  protected WebActions(BrowserType browserType) {
-    if (browserType == BrowserType.CHROME) {
-      driver = new ChromeDriver();
-    } else if (browserType == BrowserType.EDGE) {
-      driver = new EdgeDriver();
-    }
-  }
-
-  public WebDriver getDriver() {
-    return driver;
-  }
-
-  public void goToWebsite(String url) {
-    driver.get(url);
-  }
-
-  public void maximizeWindow() {
-    driver.manage().window().maximize();
+  protected BasePage() {
+    this.driver = DriverManager.getDriver();
   }
 
   public void clickOn(By locator) {
