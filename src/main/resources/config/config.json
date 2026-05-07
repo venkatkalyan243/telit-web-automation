@@ -8,5 +8,10 @@
       "url": "https://automationpractice.techwithjatin.com/"
     }
   },
+  "reports": {
+    "basePath": "target/reports/",
+    "fileName": "index.html",
+    "overrideReport": false
+  },
   "maxRetry": 3
 }

@@ -9,7 +9,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
   @Override
   public boolean retry(ITestResult result) {
-    if (count < ConfigManager.getFrameworkConfig().getMaxRetry()) {
+    if (count < ConfigManager.getConfig().getMaxRetry()) {
       count++;
       return true;
     }

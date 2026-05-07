@@ -2,26 +2,30 @@ package com.telit.util;
 
 import com.telit.constant.BrowserType;
 import com.telit.constant.EnvironmentType;
-import com.telit.model.FrameworkConfig;
-import com.telit.model.EnvironmentConfig;
+import com.telit.model.ConfigRoot;
+import com.telit.model.EnvironmentDetails;
+import com.telit.model.ReportingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class ConfigManager {
   private static final Logger log = LoggerFactory.getLogger(ConfigManager.class);
 
-  private static FrameworkConfig frameworkConfig;
+  private static ConfigRoot config;
+  private static String reportPath = "";
 
   private ConfigManager() {
   }
 
-  public static synchronized FrameworkConfig getFrameworkConfig() {
-    if (frameworkConfig == null) {
-      frameworkConfig = DataReader.fromJson("config/config.json", FrameworkConfig.class);
+  public static synchronized ConfigRoot getConfig() {
+    if (config == null) {
+      config = DataReader.fromJson("config/config.json", ConfigRoot.class);
     }
-    return frameworkConfig;
+    return config;
   }
 
   public static BrowserType getBrowser() {
@@ -31,7 +35,7 @@ public class ConfigManager {
       return validateAndGetBrowser(cliBrowser);
     }
 
-    BrowserType defaultBrowser = getFrameworkConfig().getDefaults().getBrowser();
+    BrowserType defaultBrowser = getConfig().getDefaultSettings().getBrowser();
     log.warn("WARNING: No browser specified via CLI (-Dbrowser). Defaulting to: {}", defaultBrowser);
     return defaultBrowser;
   }
@@ -44,23 +48,23 @@ public class ConfigManager {
     }
   }
 
-  public static EnvironmentConfig getEnvironment() {
+  public static EnvironmentDetails getEnvironmentDetails() {
     String cliEnv = System.getProperty("env");
     EnvironmentType targetType;
 
     if (cliEnv != null && !cliEnv.isBlank()) {
       targetType = validateAndGetEnv(cliEnv);
     } else {
-      targetType = getFrameworkConfig().getDefaults().getEnvironment();
+      targetType = getConfig().getDefaultSettings().getEnvironment();
       log.warn("WARNING: No environment specified via CLI (-Denv). Defaulting to: {}", targetType);
     }
 
-    EnvironmentConfig config = getFrameworkConfig().getEnvironments().get(targetType.toString());
+    EnvironmentDetails environmentDetails = getConfig().getEnvironmentDetails().get(targetType.toString());
 
-    if (config == null) {
+    if (environmentDetails == null) {
       throw new RuntimeException("❌ CRITICAL: Configuration for environment [" + targetType + "] missing in config.json");
     }
-    return config;
+    return environmentDetails;
   }
 
   private static EnvironmentType validateAndGetEnv(String envName) {
@@ -69,5 +73,22 @@ public class ConfigManager {
     } catch (IllegalArgumentException e) {
       throw new RuntimeException("❌ ERROR: Invalid environment '" + envName + "' provided. Supported: " + Arrays.toString(EnvironmentType.values()));
     }
+  }
+
+  public static String getReportPath() {
+    if (reportPath.isEmpty()) {
+      ReportingConfig reportingConfig = getConfig().getReportingConfig();
+      String basePath = reportingConfig.getBasePath();
+      String fileName = reportingConfig.getFileName();
+
+      if (reportingConfig.isOverrideReport()) {
+        reportPath = System.getProperty("user.dir") + "/" + basePath + fileName;
+      } else {
+        String timestamp = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("yyyy-MMM-dd_HH-mm"));
+        reportPath = System.getProperty("user.dir") + "/" + basePath + "execution_" + timestamp + "/" + fileName;
+      }
+    }
+    return reportPath;
   }
 }

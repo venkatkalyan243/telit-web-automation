@@ -1,5 +1,7 @@
 package com.telit.listener;
 
+import com.telit.util.ReportLogger;
+import com.telit.util.ReportManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -16,27 +18,36 @@ public class TestListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    String className = result.getTestClass().getRealClass().getSimpleName();
-    log.info("Starting Test: [{} : {}]", className, result.getName());
+    log.info("Starting Test: [{}]", result.getName());
+    ReportManager.createTest(result.getName());
+    ReportLogger.info("Starting execution of: " + result.getName());
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
     log.info("PASSED: [{}]", result.getName());
+    ReportLogger.pass("Test Case PASSED: " + result.getName());
+    ReportLogger.unload();
   }
 
   @Override
   public void onTestFailure(ITestResult result) {
     log.error("FAILED: [{}]", result.getName());
+    ReportLogger.fail("Test Case FAILED: " + result.getName());
+
     if (result.getThrowable() != null) {
       log.error("Exception: {}", result.getThrowable().getMessage());
       log.error("Stack Trace: ", result.getThrowable());
+      ReportLogger.fail("Exception: " + result.getThrowable().getMessage());
     }
+    ReportLogger.unload();
   }
 
   @Override
   public void onTestSkipped(ITestResult result) {
     log.warn("SKIPPED: [{}]", result.getName());
+    ReportLogger.skip("Test Case SKIPPED: " + result.getName());
+    ReportLogger.unload();
   }
 
   @Override

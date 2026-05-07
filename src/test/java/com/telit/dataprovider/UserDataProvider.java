@@ -1,7 +1,7 @@
 package com.telit.dataprovider;
 
-import com.telit.model.LoginTestData;
-import com.telit.model.User;
+import com.telit.model.LoginData;
+import com.telit.model.UserEntity;
 import com.telit.util.DataReader;
 import org.testng.annotations.DataProvider;
 
@@ -12,16 +12,16 @@ public class UserDataProvider {
 
   @DataProvider(name = "getValidUsers")
   public Iterator<Object[]> getValidUsers() {
-    LoginTestData testDataWrapper = DataReader.fromJson("test-data/scenario/valid-credentials.json", LoginTestData.class);
+    LoginData loginDataWrapper = DataReader.fromJson("test-data/scenario/valid-credentials.json", LoginData.class);
 
-    return testDataWrapper.getUsers().stream()
+    return loginDataWrapper.getUsers().stream()
         .map(user -> new Object[]{user})
         .iterator();
   }
 
   @DataProvider(name = "getInvalidUsers")
   public Iterator<Object[]> getInvalidUsers() {
-    List<User> userList = DataReader.fromCsv("test-data/bulk/invalid-credentials.csv", User.class);
+    List<UserEntity> userList = DataReader.fromCsv("test-data/bulk/invalid-credentials.csv", UserEntity.class);
 
     return userList.stream()
         .map(user -> new Object[]{user})

@@ -2,7 +2,7 @@ package com.telit.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User {
+public class UserEntity {
   @JsonProperty("emailAddress")
   private String emailAddress;
 
@@ -38,7 +38,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "User{" +
+    return "UserEntity{" +
         "emailAddress='" + emailAddress + '\'' +
         ", password='" + password + '\'' +
         ", name='" + name + '\'' +

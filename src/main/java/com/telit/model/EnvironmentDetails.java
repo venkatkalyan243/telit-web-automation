@@ -2,7 +2,7 @@ package com.telit.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EnvironmentConfig {
+public class EnvironmentDetails {
   @JsonProperty("url")
   private String url;
 
@@ -16,7 +16,7 @@ public class EnvironmentConfig {
 
   @Override
   public String toString() {
-    return "EnvironmentConfig{" +
+    return "EnvironmentDetails{" +
         "url='" + url + '\'' +
         '}';
   }

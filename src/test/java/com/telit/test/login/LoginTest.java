@@ -2,13 +2,14 @@ package com.telit.test.login;
 
 import static org.testng.Assert.*;
 
+import com.telit.model.UserEntity;
+import com.telit.test.BaseTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.telit.dataprovider.UserDataProvider;
 import com.telit.listener.RetryAnalyzer;
 import com.telit.listener.TestListener;
-import com.telit.model.User;
 
 @Listeners(TestListener.class)
 public class LoginTest extends BaseTest {
@@ -20,7 +21,7 @@ public class LoginTest extends BaseTest {
       groups = {"e2e", "sanity"},
       retryAnalyzer = RetryAnalyzer.class
   )
-  public void testLoginSuccess(User user) {
+  public void testLoginSuccess(UserEntity user) {
     assertEquals(homePage
             .goToLoginPage()
             .doLoginWith(user.getEmailAddress(), user.getPassword())
@@ -35,7 +36,7 @@ public class LoginTest extends BaseTest {
       groups = {"e2e", "sanity"},
       retryAnalyzer = RetryAnalyzer.class
   )
-  public void testLoginFailure(User user) {
+  public void testLoginFailure(UserEntity user) {
     assertEquals(homePage
             .goToLoginPage()
             .doLoginWithInvalidCredentials(user.getEmailAddress(), user.getPassword())

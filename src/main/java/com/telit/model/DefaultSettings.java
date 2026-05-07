@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.telit.constant.BrowserType;
 import com.telit.constant.EnvironmentType;
 
-public class Defaults {
+public class DefaultSettings {
   @JsonProperty("browser")
   private BrowserType browser;
 
@@ -29,7 +29,7 @@ public class Defaults {
 
   @Override
   public String toString() {
-    return "Defaults{" +
+    return "DefaultSettings{" +
         "browser=" + browser +
         ", environment=" + environment +
         '}';
