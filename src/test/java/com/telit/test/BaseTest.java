@@ -19,11 +19,14 @@ public class BaseTest {
 
   @BeforeMethod
   public void setup() {
-    DriverManager.initDriver(ConfigManager.getBrowser());
-    DriverManager.getDriver().manage().window().maximize();
-    DriverManager.getDriver().get(ConfigManager.getEnvironmentDetails().getUrl());
-
+    DriverManager.initDriver();
+    launchApplication();
     homePage = new HomePage();
+  }
+
+  private void launchApplication() {
+    String url = ConfigManager.getEnvironmentDetails().getUrl();
+    DriverManager.getDriver().get(url);
   }
 
   @AfterMethod

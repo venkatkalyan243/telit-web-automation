@@ -1,6 +1,7 @@
 package com.telit.util;
 
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 
 public final class ReportLogger {
   private static final ThreadLocal<ExtentTest> EXTENT_TEST = new ThreadLocal<>();
@@ -26,6 +27,12 @@ public final class ReportLogger {
 
   public static void skip(String message) {
     EXTENT_TEST.get().skip(message);
+  }
+
+  public static void logFailWithScreenshot(String message) {
+    String base64Code = DriverManager.getBase64Screenshot();
+    EXTENT_TEST.get().fail(message,
+        MediaEntityBuilder.createScreenCaptureFromBase64String(base64Code).build());
   }
 
   public static void unload() {

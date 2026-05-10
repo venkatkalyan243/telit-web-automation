@@ -75,6 +75,20 @@ public class ConfigManager {
     }
   }
 
+  public static boolean isHeadless() {
+    boolean isRunningOnCI = System.getenv("CI") != null;
+
+    String headlessSysProp = System.getProperty("headless");
+
+    if (isRunningOnCI) {
+      return true;
+    } else if (headlessSysProp != null) {
+      return Boolean.parseBoolean(headlessSysProp);
+    } else {
+      return getConfig().getDefaultSettings().isHeadless();
+    }
+  }
+
   public static String getReportPath() {
     if (reportPath.isEmpty()) {
       ReportingConfig reportingConfig = getConfig().getReportingConfig();

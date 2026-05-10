@@ -11,6 +11,9 @@ public class DefaultSettings {
   @JsonProperty("environment")
   private EnvironmentType environment;
 
+  @JsonProperty("headless")
+  private boolean headless;
+
   public BrowserType getBrowser() {
     return browser;
   }
@@ -27,11 +30,20 @@ public class DefaultSettings {
     this.environment = environment;
   }
 
+  public boolean isHeadless() {
+    return headless;
+  }
+
+  public void setHeadless(boolean headless) {
+    this.headless = headless;
+  }
+
   @Override
   public String toString() {
     return "DefaultSettings{" +
         "browser=" + browser +
         ", environment=" + environment +
+        ", headless=" + headless +
         '}';
   }
 }

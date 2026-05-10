@@ -1,7 +1,8 @@
 {
   "defaults": {
     "browser": "CHROME",
-    "environment": "QA"
+    "environment": "QA",
+    "headless": false
   },
   "environments": {
     "qa": {

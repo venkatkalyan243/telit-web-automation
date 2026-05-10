@@ -1,16 +1,18 @@
 package com.telit.page;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public final class HomePage extends BasePage {
-  private static final By SIGN_IN_LINK_LOCATOR = By.xpath("//a[contains(text(), 'Sign in')]");
+  @FindBy(xpath = "//a[contains(text(), 'Sign in')]")
+  private WebElement signInLink;
 
   public HomePage() {
     super();
   }
 
   public LoginPage goToLoginPage() {
-    clickOn(SIGN_IN_LINK_LOCATOR);
+    clickOn(signInLink);
     return new LoginPage();
   }
 }

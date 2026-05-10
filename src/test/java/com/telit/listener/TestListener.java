@@ -40,6 +40,13 @@ public class TestListener implements ITestListener {
       log.error("Stack Trace: ", result.getThrowable());
       ReportLogger.fail("Exception: " + result.getThrowable().getMessage());
     }
+
+    try {
+      ReportLogger.logFailWithScreenshot("Failure Screenshot");
+    } catch (Exception e) {
+      ReportLogger.info("Failed to capture screenshot: " + e.getMessage());
+    }
+
     ReportLogger.unload();
   }
 
