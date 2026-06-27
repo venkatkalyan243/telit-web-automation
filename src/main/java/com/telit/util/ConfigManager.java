@@ -4,16 +4,15 @@ import com.telit.constant.BrowserType;
 import com.telit.constant.EnvironmentType;
 import com.telit.model.ConfigRoot;
 import com.telit.model.EnvironmentDetails;
-import com.telit.model.ReportingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.File;
 import java.util.Arrays;
 
 public class ConfigManager {
   private static final Logger log = LoggerFactory.getLogger(ConfigManager.class);
+  private static final String BASE_OUTPUT_DIR = "target/exec-outputs";
 
   private static ConfigRoot config;
   private static String reportPath = "";
@@ -23,7 +22,7 @@ public class ConfigManager {
 
   public static synchronized ConfigRoot getConfig() {
     if (config == null) {
-      config = DataReader.fromJson("config/config.json", ConfigRoot.class);
+      config = DataReader.fromJson("config.json", ConfigRoot.class);
     }
     return config;
   }
@@ -91,17 +90,15 @@ public class ConfigManager {
 
   public static String getReportPath() {
     if (reportPath.isEmpty()) {
-      ReportingConfig reportingConfig = getConfig().getReportingConfig();
-      String basePath = reportingConfig.getBasePath();
-      String fileName = reportingConfig.getFileName();
+      String fallbackFolder = BASE_OUTPUT_DIR + "/exec";
+      String execFolder = System.getProperty("execOutputDir", fallbackFolder);
+      String fileName = getConfig().getReportFileName();
 
-      if (reportingConfig.isOverrideReport()) {
-        reportPath = System.getProperty("user.dir") + "/" + basePath + fileName;
-      } else {
-        String timestamp = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern("yyyy-MMM-dd_HH-mm"));
-        reportPath = System.getProperty("user.dir") + "/" + basePath + "execution_" + timestamp + "/" + fileName;
+      if (fallbackFolder.equals(execFolder)) {
+        new File(execFolder).mkdirs();
       }
+
+      reportPath = System.getProperty("user.dir") + "/" + execFolder + "/" + fileName;
     }
     return reportPath;
   }

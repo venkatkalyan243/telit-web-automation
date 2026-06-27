@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-  <Properties>
-    <Property name="LOG_DIR">target/logs</Property>
-    <Property name="ARCHIVE_DIR">${LOG_DIR}/archive</Property>
-  </Properties>
-
   <Appenders>
     <Console name="ConsoleAppender" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n%throwable"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n%throwable"/>
     </Console>
 
-    <RollingFile name="FileAppender"
-                 fileName="${LOG_DIR}/execution.log"
-                 filePattern="${ARCHIVE_DIR}/execution_%d{yyyy-MMM-dd_HH-mm}.log">
-      <PatternLayout>
-        <Pattern>%d{yyyy-MMM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
-      </PatternLayout>
-
-      <Policies>
-        <OnStartupTriggeringPolicy/>
-        <SizeBasedTriggeringPolicy size="10 MB"/>
-      </Policies>
-    </RollingFile>
+    <Routing name="DynamicRoutingAppender">
+      <Routes pattern="${sys:execOutputDir}">
+        <Route>
+          <File name="FileAppender-${sys:execOutputDir}"
+                fileName="${sys:execOutputDir:-target/exec-outputs/exec}/execution.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+          </File>
+        </Route>
+      </Routes>
+    </Routing>
   </Appenders>
 
   <Loggers>
     <Root level="INFO">
       <AppenderRef ref="ConsoleAppender"/>
-      <AppenderRef ref="FileAppender"/>
+      <AppenderRef ref="DynamicRoutingAppender"/>
     </Root>
   </Loggers>
 </Configuration>

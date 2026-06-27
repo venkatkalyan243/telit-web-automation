@@ -5,17 +5,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 public class ConfigRoot {
+  @JsonProperty("reportFileName")
+  private String reportFileName;
+
+  @JsonProperty("maxRetry")
+  private int maxRetry;
+
   @JsonProperty("defaults")
   private DefaultSettings defaultSettings;
 
   @JsonProperty("environments")
   private Map<String, EnvironmentDetails> environmentDetails;
 
-  @JsonProperty("reports")
-  private ReportingConfig reportingConfig;
+  public String getReportFileName() {
+    return reportFileName;
+  }
 
-  @JsonProperty("maxRetry")
-  private int maxRetry;
+  public void setReportFileName(String reportFileName) {
+    this.reportFileName = reportFileName;
+  }
+
+  public int getMaxRetry() {
+    return maxRetry;
+  }
+
+  public void setMaxRetry(int maxRetry) {
+    this.maxRetry = maxRetry;
+  }
 
   public DefaultSettings getDefaultSettings() {
     return defaultSettings;
@@ -33,29 +49,13 @@ public class ConfigRoot {
     this.environmentDetails = environmentDetails;
   }
 
-  public ReportingConfig getReportingConfig() {
-    return reportingConfig;
-  }
-
-  public void setReportingConfig(ReportingConfig reportingConfig) {
-    this.reportingConfig = reportingConfig;
-  }
-
-  public int getMaxRetry() {
-    return maxRetry;
-  }
-
-  public void setMaxRetry(int maxRetry) {
-    this.maxRetry = maxRetry;
-  }
-
   @Override
   public String toString() {
     return "ConfigRoot{" +
-        "defaultSettings=" + defaultSettings +
-        ", environmentDetails=" + environmentDetails +
-        ", reportingConfig=" + reportingConfig +
+        "reportFileName='" + reportFileName + '\'' +
         ", maxRetry=" + maxRetry +
+        ", defaultSettings=" + defaultSettings +
+        ", environmentDetails=" + environmentDetails +
         '}';
   }
 }

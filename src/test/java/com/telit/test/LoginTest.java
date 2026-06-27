@@ -1,9 +1,8 @@
-package com.telit.test.login;
+package com.telit.test;
 
 import static org.testng.Assert.*;
 
 import com.telit.model.UserEntity;
-import com.telit.test.BaseTest;
 import org.testng.annotations.Test;
 import com.telit.dataprovider.UserDataProvider;
 

@@ -15,13 +15,6 @@ public final class ReportManager {
     if (extent == null) {
       String reportPath = ConfigManager.getReportPath();
 
-      File file = new File(reportPath);
-      File parentDir = file.getParentFile();
-
-      if (parentDir != null && !parentDir.exists()) {
-        parentDir.mkdirs();
-      }
-
       ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
       spark.config().setReportName("Telit Web Automation Results");
       spark.config().setDocumentTitle("Test Report");

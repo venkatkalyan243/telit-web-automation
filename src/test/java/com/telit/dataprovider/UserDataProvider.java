@@ -12,7 +12,7 @@ public class UserDataProvider {
 
   @DataProvider(name = "getValidUsers")
   public Iterator<Object[]> getValidUsers() {
-    LoginData loginDataWrapper = DataReader.fromJson("test-data/scenario/valid-credentials.json", LoginData.class);
+    LoginData loginDataWrapper = DataReader.fromJson("test-data/functional/valid-credentials.json", LoginData.class);
 
     return loginDataWrapper.getUsers().stream()
         .map(user -> new Object[]{user})
@@ -21,7 +21,7 @@ public class UserDataProvider {
 
   @DataProvider(name = "getInvalidUsers")
   public Iterator<Object[]> getInvalidUsers() {
-    List<UserEntity> userList = DataReader.fromCsv("test-data/bulk/invalid-credentials.csv", UserEntity.class);
+    List<UserEntity> userList = DataReader.fromCsv("test-data/data-driven/invalid-credentials.csv", UserEntity.class);
 
     return userList.stream()
         .map(user -> new Object[]{user})

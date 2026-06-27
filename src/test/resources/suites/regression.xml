@@ -6,13 +6,14 @@
        verbose="1">
 
   <listeners>
-    <listener class-name="com.telit.listener.RetryListener"/>
+    <listener class-name="com.telit.listener.SuiteListener"/>
     <listener class-name="com.telit.listener.TestListener"/>
+    <listener class-name="com.telit.listener.RetryListener"/>
   </listeners>
 
   <test name="Login &amp; Authentication Regression">
     <classes>
-      <class name="com.telit.test.login.LoginTest"/>
+      <class name="com.telit.test.LoginTest"/>
     </classes>
   </test>
 </suite>
