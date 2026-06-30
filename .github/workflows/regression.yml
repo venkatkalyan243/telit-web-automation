@@ -1,0 +1,49 @@
+name: Telit Web Automation Core Regression Suite
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Every day at 14:30 UTC (08:00 PM IST)
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Target Browser for Execution'
+        required: true
+        default: 'CHROME'
+      env:
+        description: 'Target Application Environment'
+        required: true
+        default: 'QA'
+
+jobs:
+  run-automation-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: Provision Java 17 Runtime Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Execute Selenium Regression Suite
+        run: |
+          mvn clean test \
+            -Dsuite=regression \
+            -Dbrowser=${{ github.event.inputs.browser || 'CHROME' }} \
+            -Denv=${{ github.event.inputs.env || 'QA' }} \
+            -Dheadless=true
+
+      - name: Archive Consolidated Execution Outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: telit-execution-bundle
+          path: target/exec-outputs/
+          retention-days: 5
