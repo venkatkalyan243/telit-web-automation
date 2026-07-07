@@ -1,20 +1,12 @@
 package com.telit.page;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
 
 public final class LoginPage extends BasePage {
-  @FindBy(id = "email")
-  private WebElement emailAddressTextBox;
-
-  @FindBy(id = "passwd")
-  private WebElement passwordTextBox;
-
-  @FindBy(id = "SubmitLogin")
-  private WebElement signInButton;
-
-  @FindBy(xpath = "//div[@class = 'alert alert-danger']/ol/li")
-  private WebElement errorMessageText;
+  private final By emailAddressTextBox = By.id("email");
+  private final By passwordTextBox = By.id("passwd");
+  private final By signInButton = By.id("SubmitLogin");
+  private final By errorMessageText = By.xpath("//div[@class = 'alert alert-danger']/ol/li");
 
   public LoginPage() {
     super();
@@ -31,12 +23,12 @@ public final class LoginPage extends BasePage {
   }
 
   private void submitCredentials(String email, String password) {
-    enterText(emailAddressTextBox, email);
-    enterText(passwordTextBox, password);
-    clickOn(signInButton);
+    type(emailAddressTextBox, email);
+    type(passwordTextBox, password);
+    click(signInButton);
   }
 
   public String getErrorMessage() {
-    return getVisibleText(errorMessageText);
+    return getTextOf(errorMessageText);
   }
 }
