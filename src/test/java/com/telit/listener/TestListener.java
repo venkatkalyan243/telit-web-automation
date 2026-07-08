@@ -19,7 +19,7 @@ public class TestListener implements ITestListener {
   @Override
   public void onTestStart(ITestResult result) {
     log.info("Starting Test: [{}]", result.getName());
-    ReportManager.createTest(result.getName());
+    ReportManager.createExtentTest(result.getName());
     ReportLogger.info("Starting execution of: " + result.getName());
   }
 

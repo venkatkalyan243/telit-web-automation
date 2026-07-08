@@ -3,32 +3,32 @@ package com.telit.page;
 import org.openqa.selenium.By;
 
 public final class LoginPage extends BasePage {
-  private final By emailAddressTextBox = By.id("email");
-  private final By passwordTextBox = By.id("passwd");
-  private final By signInButton = By.id("SubmitLogin");
-  private final By errorMessageText = By.xpath("//div[@class = 'alert alert-danger']/ol/li");
+  private final By txtEmail = By.id("email");
+  private final By txtPassword = By.id("passwd");
+  private final By btnSignIn = By.id("SubmitLogin");
+  private final By lblErrorMsg = By.xpath("//div[@class = 'alert alert-danger']/ol/li");
 
   public LoginPage() {
     super();
   }
 
-  public MyAccountPage doLoginWith(String email, String password) {
+  public MyAccountPage loginAs(String email, String password) {
     submitCredentials(email, password);
     return new MyAccountPage();
   }
 
-  public LoginPage doLoginWithInvalidCredentials(String email, String password) {
+  public LoginPage loginWithInvalidCredentials(String email, String password) {
     submitCredentials(email, password);
     return this;
   }
 
   private void submitCredentials(String email, String password) {
-    type(emailAddressTextBox, email);
-    type(passwordTextBox, password);
-    click(signInButton);
+    type(txtEmail, email);
+    type(txtPassword, password);
+    click(btnSignIn);
   }
 
-  public String getErrorMessage() {
-    return getTextOf(errorMessageText);
+  public String getAuthenticationFailureMessage() {
+    return getTextOf(lblErrorMsg);
   }
 }

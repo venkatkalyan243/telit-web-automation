@@ -1,6 +1,6 @@
 package com.telit.test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import com.telit.model.UserEntity;
 import org.testng.annotations.Test;
@@ -14,11 +14,12 @@ public class LoginTest extends BaseTest {
       description = "Verify successful login with valid credentials"
   )
   public void testLoginSuccess(UserEntity user) {
-    assertEquals(homePage
-            .goToLoginPage()
-            .doLoginWith(user.getEmailAddress(), user.getPassword())
-            .getUserName()
-        , user.getName());
+    String actualUserName = homePage
+        .navigateToLoginPage()
+        .loginAs(user.getEmailAddress(), user.getPassword())
+        .getLoggedInAccountName();
+
+    assertEquals(actualUserName, user.getName());
   }
 
   @Test(
@@ -27,10 +28,11 @@ public class LoginTest extends BaseTest {
       description = "Verify error message when logging in with invalid credentials"
   )
   public void testLoginFailure(UserEntity user) {
-    assertEquals(homePage
-            .goToLoginPage()
-            .doLoginWithInvalidCredentials(user.getEmailAddress(), user.getPassword())
-            .getErrorMessage()
-        , "Authentication failed.");
+    String actualErrorMessage = homePage
+        .navigateToLoginPage()
+        .loginWithInvalidCredentials(user.getEmailAddress(), user.getPassword())
+        .getAuthenticationFailureMessage();
+
+    assertEquals(actualErrorMessage, "Authentication failed.");
   }
 }

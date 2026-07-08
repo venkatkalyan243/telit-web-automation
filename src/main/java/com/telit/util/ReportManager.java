@@ -4,31 +4,35 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public final class ReportManager {
-  private static ExtentReports extent;
+  private static ExtentReports extentReports;
 
   private ReportManager() {
   }
 
-  public static void initReports() {
-    if (extent == null) {
+  public static synchronized void initReports() {
+    if (extentReports == null) {
       String reportPath = ConfigManager.getReportPath();
 
       ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
       spark.config().setReportName("Telit Web Automation Results");
       spark.config().setDocumentTitle("Test Report");
 
-      extent = new ExtentReports();
-      extent.attachReporter(spark);
+      extentReports = new ExtentReports();
+      extentReports.attachReporter(spark);
     }
   }
 
-  public static void flushReports() {
-    if (extent != null) {
-      extent.flush();
+  public static synchronized void flushReports() {
+    if (extentReports != null) {
+      extentReports.flush();
+      extentReports = null;
     }
   }
 
-  public static void createTest(String testName) {
-    ReportLogger.setExtentTest(extent.createTest(testName));
+  public static void createExtentTest(String testName) {
+    if (extentReports == null) {
+      initReports();
+    }
+    ReportLogger.setExtentTest(extentReports.createTest(testName));
   }
 }
