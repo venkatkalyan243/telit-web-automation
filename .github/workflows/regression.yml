@@ -3,9 +3,9 @@ name: Telit Web Automation Core Regression Suite
 on:
   push:
     branches: [ main ]
-  schedule:
+  # schedule:
     # Every day at 14:30 UTC (08:00 PM IST)
-    - cron: '30 14 * * *'
+    # - cron: '30 14 * * *'
   workflow_dispatch:
     inputs:
       browser:
@@ -20,6 +20,9 @@ on:
 jobs:
   run-automation-tests:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Clone Repository Source Code
@@ -39,6 +42,20 @@ jobs:
             -Dbrowser=${{ github.event.inputs.browser || 'CHROME' }} \
             -Denv=${{ github.event.inputs.env || 'QA' }} \
             -Dheadless=true
+
+      - name: Flatten Report Structure for Web Deployment
+        if: always()
+        run: |
+          mkdir -p target/deploy-report
+          find target/exec-outputs/ -type f -exec cp {} target/deploy-report/ \;
+          ls -l target/deploy-report/
+
+      - name: Deploy Test Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/deploy-report
 
       - name: Archive Consolidated Execution Outputs
         if: always()
