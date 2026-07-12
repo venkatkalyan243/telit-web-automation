@@ -3,13 +3,13 @@ package com.telit.page;
 import org.openqa.selenium.By;
 
 public final class MyAccountPage extends BasePage {
-  private final By lnkUserAccount = By.xpath("//a[@title = 'View my customer account']/span");
+  private final By lblPageHeader = By.className("page-heading");
 
   public MyAccountPage() {
     super();
   }
 
-  public String getLoggedInAccountName() {
-    return getTextOf(lnkUserAccount);
+  public String getPageHeaderName() {
+    return getTextOf(lblPageHeader);
   }
 }

@@ -3,21 +3,18 @@ package com.telit.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserEntity {
-  @JsonProperty("emailAddress")
-  private String emailAddress;
+  @JsonProperty("email")
+  private String email;
 
   @JsonProperty("password")
   private String password;
 
-  @JsonProperty("name")
-  private String name;
-
-  public String getEmailAddress() {
-    return emailAddress;
+  public String getEmail() {
+    return email;
   }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getPassword() {
@@ -28,20 +25,11 @@ public class UserEntity {
     this.password = password;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   @Override
   public String toString() {
     return "UserEntity{" +
-        "emailAddress='" + emailAddress + '\'' +
+        "email='" + email + '\'' +
         ", password='" + password + '\'' +
-        ", name='" + name + '\'' +
         '}';
   }
 }

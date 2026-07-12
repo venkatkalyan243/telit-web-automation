@@ -19,3 +19,6 @@ logs/
 # --- OS Specific ---
 .DS_Store
 Thumbs.db
+
+# --- Secure Local Test Credentials ---
+src/main/resources/local-secrets.json

@@ -3,8 +3,6 @@ package com.telit.util;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 
-import java.util.Objects;
-
 public final class ReportLogger {
   private static final ThreadLocal<ExtentTest> EXTENT_TEST = new ThreadLocal<>();
 
@@ -16,31 +14,44 @@ public final class ReportLogger {
   }
 
   private static ExtentTest getExtentTest() {
-    ExtentTest currentExtentTest = EXTENT_TEST.get();
-    return Objects.requireNonNull(currentExtentTest,
-        "ExtentTest instance is null for the current thread. Please call ReportManager.createExtentTest()");
+    return EXTENT_TEST.get();
   }
 
   public static void pass(String message) {
-    getExtentTest().pass(message);
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      extentTest.pass(message);
+    }
   }
 
   public static void fail(String message) {
-    getExtentTest().fail(message);
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      extentTest.fail(message);
+    }
   }
 
   public static void info(String message) {
-    getExtentTest().info(message);
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      extentTest.info(message);
+    }
   }
 
   public static void skip(String message) {
-    getExtentTest().skip(message);
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      extentTest.skip(message);
+    }
   }
 
   public static void logFailWithScreenshot(String message) {
-    String base64Code = DriverManager.getBase64Screenshot();
-    getExtentTest().fail(message,
-        MediaEntityBuilder.createScreenCaptureFromBase64String(base64Code).build());
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      String base64Code = DriverManager.getBase64Screenshot();
+      extentTest.fail(message,
+          MediaEntityBuilder.createScreenCaptureFromBase64String(base64Code).build());
+    }
   }
 
   public static void unload() {

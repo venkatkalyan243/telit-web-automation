@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.stream.Stream;
 
-public enum EnvironmentType {
+public enum EnvType {
   QA;
 
   @JsonCreator
-  public static BrowserType decode(String value) {
-    return Stream.of(BrowserType.values())
+  public static EnvType decode(String value) {
+    return Stream.of(EnvType.values())
         .filter(target -> target.name().equalsIgnoreCase(value))
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Invalid browser: " + value));

@@ -21,6 +21,8 @@ jobs:
   run-automation-tests:
     runs-on: ubuntu-latest
 
+    environment: ${{ github.event.inputs.env || 'QA' }}
+
     permissions:
       contents: write
 
@@ -42,6 +44,9 @@ jobs:
             -Dbrowser=${{ github.event.inputs.browser || 'CHROME' }} \
             -Denv=${{ github.event.inputs.env || 'QA' }} \
             -Dheadless=true
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
       - name: Flatten Report Structure for Web Deployment
         if: always()

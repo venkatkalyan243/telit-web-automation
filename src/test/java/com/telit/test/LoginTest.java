@@ -3,23 +3,22 @@ package com.telit.test;
 import static org.testng.Assert.assertEquals;
 
 import com.telit.model.UserEntity;
+import com.telit.page.MyAccountPage;
+import com.telit.util.SecretsManager;
 import org.testng.annotations.Test;
 import com.telit.dataprovider.UserDataProvider;
 
 public class LoginTest extends BaseTest {
 
-  @Test(
-      dataProviderClass = UserDataProvider.class,
-      dataProvider = "getValidUsers",
-      description = "Verify successful login with valid credentials"
-  )
-  public void testLoginSuccess(UserEntity user) {
-    String actualUserName = homePage
-        .navigateToLoginPage()
-        .loginAs(user.getEmailAddress(), user.getPassword())
-        .getLoggedInAccountName();
+  @Test(description = "Verify successful login with valid credentials")
+  public void testLoginSuccess() {
+    var credentials = SecretsManager.getCredentials();
 
-    assertEquals(actualUserName, user.getName());
+    MyAccountPage myAccountPage = homePage
+        .navigateToLoginPage()
+        .loginAs(credentials.getEmail(), credentials.getPassword());
+
+    assertEquals(myAccountPage.getPageHeaderName(), "MY ACCOUNT");
   }
 
   @Test(
@@ -30,7 +29,7 @@ public class LoginTest extends BaseTest {
   public void testLoginFailure(UserEntity user) {
     String actualErrorMessage = homePage
         .navigateToLoginPage()
-        .loginWithInvalidCredentials(user.getEmailAddress(), user.getPassword())
+        .loginWithInvalidCredentials(user.getEmail(), user.getPassword())
         .getAuthenticationFailureMessage();
 
     assertEquals(actualErrorMessage, "Authentication failed.");

@@ -25,7 +25,7 @@ public class BaseTest {
   }
 
   private void launchApplication() {
-    String url = ConfigManager.getEnvironmentDetails().getUrl();
+    String url = ConfigManager.getEnvDetails().getUrl();
     DriverManager.getDriver().get(url);
   }
 

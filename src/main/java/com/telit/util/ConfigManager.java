@@ -1,9 +1,8 @@
 package com.telit.util;
 
 import com.telit.constant.BrowserType;
-import com.telit.constant.EnvironmentType;
+import com.telit.constant.EnvType;
 import com.telit.model.ConfigRoot;
-import com.telit.model.EnvironmentDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,8 @@ public class ConfigManager {
 
   private static ConfigRoot config;
   private static String reportPath = "";
+  private static BrowserType cachedBrowser;
+  private static EnvType cachedEnv;
 
   private ConfigManager() {
   }
@@ -28,50 +29,55 @@ public class ConfigManager {
   }
 
   public static BrowserType getBrowser() {
+    if (cachedBrowser != null) {
+      return cachedBrowser;
+    }
+
     String cliBrowser = System.getProperty("browser");
 
     if (cliBrowser != null && !cliBrowser.isBlank()) {
-      return validateAndGetBrowser(cliBrowser);
+      try {
+        cachedBrowser = BrowserType.valueOf(cliBrowser.toUpperCase());
+      } catch (IllegalArgumentException e) {
+        throw new RuntimeException("❌ ERROR: Invalid browser '" + cliBrowser + "' provided. Supported: " + Arrays.toString(BrowserType.values()));
+      }
+    } else {
+      cachedBrowser = getConfig().getDefaultSettings().getBrowser();
+      log.warn("WARNING: No browser specified via CLI (-Dbrowser). Defaulting to: {}", cachedBrowser);
     }
 
-    BrowserType defaultBrowser = getConfig().getDefaultSettings().getBrowser();
-    log.warn("WARNING: No browser specified via CLI (-Dbrowser). Defaulting to: {}", defaultBrowser);
-    return defaultBrowser;
+    return cachedBrowser;
   }
 
-  private static BrowserType validateAndGetBrowser(String browserName) {
-    try {
-      return BrowserType.valueOf(browserName.toUpperCase());
-    } catch (IllegalArgumentException e) {
-      throw new RuntimeException("❌ ERROR: Invalid browser '" + browserName + "' provided. Supported: " + Arrays.toString(BrowserType.values()));
+  public static ConfigRoot.EnvDetails getEnvDetails() {
+    EnvType currentEnv = validateAndGetEnv();
+    ConfigRoot.EnvDetails envDetails = getConfig().getEnvDetails().get(currentEnv.toString());
+
+    if (envDetails == null) {
+      throw new RuntimeException("❌ CRITICAL: Configuration for environment [" + currentEnv + "] missing in config.json");
     }
+    return envDetails;
   }
 
-  public static EnvironmentDetails getEnvironmentDetails() {
+  public static EnvType validateAndGetEnv() {
+    if (cachedEnv != null) {
+      return cachedEnv;
+    }
+
     String cliEnv = System.getProperty("env");
-    EnvironmentType targetType;
 
     if (cliEnv != null && !cliEnv.isBlank()) {
-      targetType = validateAndGetEnv(cliEnv);
+      try {
+        cachedEnv = EnvType.valueOf(cliEnv.toUpperCase());
+      } catch (IllegalArgumentException e) {
+        throw new RuntimeException("❌ ERROR: Invalid environment '" + cliEnv + "' provided. Supported: " + Arrays.toString(EnvType.values()));
+      }
     } else {
-      targetType = getConfig().getDefaultSettings().getEnvironment();
-      log.warn("WARNING: No environment specified via CLI (-Denv). Defaulting to: {}", targetType);
+      cachedEnv = getConfig().getDefaultSettings().getEnvironment();
+      log.warn("WARNING: No environment specified via CLI (-Denv). Defaulting to: {}", cachedEnv);
     }
 
-    EnvironmentDetails environmentDetails = getConfig().getEnvironmentDetails().get(targetType.toString());
-
-    if (environmentDetails == null) {
-      throw new RuntimeException("❌ CRITICAL: Configuration for environment [" + targetType + "] missing in config.json");
-    }
-    return environmentDetails;
-  }
-
-  private static EnvironmentType validateAndGetEnv(String envName) {
-    try {
-      return EnvironmentType.valueOf(envName.toUpperCase());
-    } catch (IllegalArgumentException e) {
-      throw new RuntimeException("❌ ERROR: Invalid environment '" + envName + "' provided. Supported: " + Arrays.toString(EnvironmentType.values()));
-    }
+    return cachedEnv;
   }
 
   public static boolean isHeadless() {
