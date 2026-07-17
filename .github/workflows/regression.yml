@@ -45,7 +45,7 @@ jobs:
             -Denv=${{ github.event.inputs.env || 'QA' }} \
             -Dheadless=true
         env:
-          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
       - name: Flatten Report Structure for Web Deployment

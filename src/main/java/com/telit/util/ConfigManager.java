@@ -39,7 +39,7 @@ public class ConfigManager {
       try {
         cachedBrowser = BrowserType.valueOf(cliBrowser.toUpperCase());
       } catch (IllegalArgumentException e) {
-        throw new RuntimeException("❌ ERROR: Invalid browser '" + cliBrowser + "' provided. Supported: " + Arrays.toString(BrowserType.values()));
+        throw new RuntimeException("ERROR: Invalid browser '" + cliBrowser + "' provided. Supported: " + Arrays.toString(BrowserType.values()));
       }
     } else {
       cachedBrowser = getConfig().getDefaultSettings().getBrowser();
@@ -54,7 +54,7 @@ public class ConfigManager {
     ConfigRoot.EnvDetails envDetails = getConfig().getEnvDetails().get(currentEnv.toString());
 
     if (envDetails == null) {
-      throw new RuntimeException("❌ CRITICAL: Configuration for environment [" + currentEnv + "] missing in config.json");
+      throw new RuntimeException("CRITICAL: Configuration for environment [" + currentEnv + "] missing in config.json");
     }
     return envDetails;
   }
@@ -70,7 +70,7 @@ public class ConfigManager {
       try {
         cachedEnv = EnvType.valueOf(cliEnv.toUpperCase());
       } catch (IllegalArgumentException e) {
-        throw new RuntimeException("❌ ERROR: Invalid environment '" + cliEnv + "' provided. Supported: " + Arrays.toString(EnvType.values()));
+        throw new RuntimeException("ERROR: Invalid environment '" + cliEnv + "' provided. Supported: " + Arrays.toString(EnvType.values()));
       }
     } else {
       cachedEnv = getConfig().getDefaultSettings().getEnvironment();

@@ -1,9 +1,10 @@
 package com.telit.test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import com.telit.model.UserEntity;
-import com.telit.page.MyAccountPage;
+import com.telit.page.AdminRoomsPage;
 import com.telit.util.SecretsManager;
 import org.testng.annotations.Test;
 import com.telit.dataprovider.UserDataProvider;
@@ -14,11 +15,14 @@ public class LoginTest extends BaseTest {
   public void testLoginSuccess() {
     var credentials = SecretsManager.getCredentials();
 
-    MyAccountPage myAccountPage = homePage
-        .navigateToLoginPage()
-        .loginAs(credentials.getEmail(), credentials.getPassword());
+    AdminRoomsPage adminRoomsPage = homePage
+        .navigateToAdminLoginPage()
+        .loginAs(credentials.getUsername(), credentials.getPassword());
 
-    assertEquals(myAccountPage.getPageHeaderName(), "MY ACCOUNT");
+    assertTrue(
+        adminRoomsPage.isLoaded(),
+        "FAIL: The Admin Rooms Page failed to load after submitting valid credentials."
+    );
   }
 
   @Test(
@@ -28,10 +32,10 @@ public class LoginTest extends BaseTest {
   )
   public void testLoginFailure(UserEntity user) {
     String actualErrorMessage = homePage
-        .navigateToLoginPage()
-        .loginWithInvalidCredentials(user.getEmail(), user.getPassword())
+        .navigateToAdminLoginPage()
+        .loginWithInvalidCredentials(user.getUsername(), user.getPassword())
         .getAuthenticationFailureMessage();
 
-    assertEquals(actualErrorMessage, "Authentication failed.");
+    assertEquals(actualErrorMessage, "Invalid credentials");
   }
 }

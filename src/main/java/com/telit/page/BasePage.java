@@ -1,5 +1,6 @@
 package com.telit.page;
 
+import com.telit.util.ConfigManager;
 import com.telit.util.DriverManager;
 import com.telit.util.ReportLogger;
 import org.openqa.selenium.By;
@@ -15,8 +16,10 @@ import java.time.Duration;
 public abstract class BasePage {
   protected final Logger log = LoggerFactory.getLogger(getClass());
 
+  private final Duration timeout =
+      Duration.ofSeconds(ConfigManager.getConfig().getExplicitWaitSeconds());
+
   protected WebDriver driver;
-  private final Duration timeout = Duration.ofSeconds(10);
 
   protected BasePage() {
     this.driver = DriverManager.getDriver();
@@ -43,7 +46,7 @@ public abstract class BasePage {
     log.info("Clearing input field -> [{}]", locatorDetails);
     targetField.clear();
 
-    String loggedValue = locatorDetails.toLowerCase().contains("passwd") ? "********" : valueToInput;
+    String loggedValue = locatorDetails.toLowerCase().contains("password") ? "***" : valueToInput;
     log.info("Typing [{}] into field -> [{}]", loggedValue, locatorDetails);
     ReportLogger.info("Typing [" + loggedValue + "] into field -> [" + locatorDetails + "]");
 

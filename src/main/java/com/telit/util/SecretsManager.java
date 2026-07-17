@@ -17,12 +17,12 @@ public class SecretsManager {
   }
 
   public static SecretsRoot.EnvCredentials getCredentials() {
-    String ciEmail = System.getenv("TEST_EMAIL");
+    String ciUsername = System.getenv("TEST_USERNAME");
     String ciPassword = System.getenv("TEST_PASSWORD");
 
-    if (ciEmail != null && ciPassword != null) {
+    if (ciUsername != null && ciPassword != null) {
       SecretsRoot.EnvCredentials credentials = new SecretsRoot.EnvCredentials();
-      credentials.setEmail(ciEmail);
+      credentials.setUsername(ciUsername);
       credentials.setPassword(ciPassword);
       return credentials;
     }
@@ -31,7 +31,7 @@ public class SecretsManager {
     SecretsRoot.EnvCredentials credentials = getSecrets().getEnvCredentials().get(currentEnv.toString().toLowerCase());
 
     if (credentials == null) {
-      throw new RuntimeException("❌ CRITICAL: Credentials for environment [" + currentEnv + "] missing in local-secrets.json");
+      throw new RuntimeException("CRITICAL: Credentials for environment [" + currentEnv + "] missing in local-secrets.json");
     }
     return credentials;
   }

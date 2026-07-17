@@ -1,6 +1,7 @@
 {
   "reportFileName": "index.html",
   "maxRetry": 3,
+  "explicitWaitSeconds": 10,
   "defaults": {
     "browser": "CHROME",
     "environment": "QA",
@@ -8,7 +9,7 @@
   },
   "environments": {
     "qa": {
-      "url": "https://automationpractice.techwithjatin.com/"
+      "url": "https://automationintesting.online/"
     }
   }
 }

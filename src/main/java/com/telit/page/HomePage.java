@@ -3,14 +3,14 @@ package com.telit.page;
 import org.openqa.selenium.By;
 
 public final class HomePage extends BasePage {
-  private final By lnkSignIn = By.xpath("//a[contains(text(), 'Sign in')]");
+  private final By adminLink = By.xpath("//a[contains(text(), 'Admin')]");
 
   public HomePage() {
     super();
   }
 
-  public LoginPage navigateToLoginPage() {
-    click(lnkSignIn);
-    return new LoginPage();
+  public AdminLoginPage navigateToAdminLoginPage() {
+    click(adminLink);
+    return new AdminLoginPage();
   }
 }

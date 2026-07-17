@@ -13,6 +13,9 @@ public class ConfigRoot {
   @JsonProperty("maxRetry")
   private int maxRetry;
 
+  @JsonProperty("explicitWaitSeconds")
+  private int explicitWaitSeconds;
+
   @JsonProperty("defaults")
   private DefaultSettings defaultSettings;
 
@@ -33,6 +36,14 @@ public class ConfigRoot {
 
   public void setMaxRetry(int maxRetry) {
     this.maxRetry = maxRetry;
+  }
+
+  public int getExplicitWaitSeconds() {
+    return explicitWaitSeconds;
+  }
+
+  public void setExplicitWaitSeconds(int explicitWaitSeconds) {
+    this.explicitWaitSeconds = explicitWaitSeconds;
   }
 
   public DefaultSettings getDefaultSettings() {
@@ -56,6 +67,7 @@ public class ConfigRoot {
     return "ConfigRoot{" +
         "reportFileName='" + reportFileName + '\'' +
         ", maxRetry=" + maxRetry +
+        ", explicitWaitSeconds=" + explicitWaitSeconds +
         ", defaultSettings=" + defaultSettings +
         ", envDetails=" + envDetails +
         '}';
