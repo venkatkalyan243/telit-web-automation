@@ -1,0 +1,15 @@
+{
+  "roomName": "243",
+  "type": "Suite",
+  "accessible": true,
+  "image": "https://blog.postman.com/wp-content/uploads/2014/07/logo.png",
+  "description": "West Midlands County Suite",
+  "roomPrice": 435,
+  "features": [
+    "WiFi",
+    "TV",
+    "Refreshments",
+    "Safe",
+    "Views"
+  ]
+}

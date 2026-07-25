@@ -4,6 +4,7 @@ import com.telit.page.HomePage;
 import com.telit.util.ConfigManager;
 import com.telit.util.DriverManager;
 import com.telit.util.ReportManager;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -20,13 +21,15 @@ public class BaseTest {
   @BeforeMethod
   public void setup() {
     DriverManager.initDriver();
-    launchApplication();
-    homePage = new HomePage();
+    WebDriver driver = DriverManager.getDriver();
+
+    launchApplication(driver);
+    homePage = new HomePage(driver);
   }
 
-  private void launchApplication() {
+  private void launchApplication(WebDriver driver) {
     String url = ConfigManager.getEnvDetails().getUrl();
-    DriverManager.getDriver().get(url);
+    driver.get(url);
   }
 
   @AfterMethod

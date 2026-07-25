@@ -1,7 +1,6 @@
 package com.telit.page;
 
 import com.telit.util.ConfigManager;
-import com.telit.util.DriverManager;
 import com.telit.util.ReportLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,13 +19,17 @@ public abstract class BasePage {
       Duration.ofSeconds(ConfigManager.getConfig().getExplicitWaitSeconds());
 
   protected WebDriver driver;
+  private WebDriverWait wait;
 
-  protected BasePage() {
-    this.driver = DriverManager.getDriver();
+  protected BasePage(WebDriver driver) {
+    this.driver = driver;
   }
 
   private WebDriverWait getWait() {
-    return new WebDriverWait(this.driver, timeout);
+    if (this.wait == null) {
+      this.wait = new WebDriverWait(driver, timeout);
+    }
+    return this.wait;
   }
 
   protected void click(By locator) {
@@ -44,6 +47,8 @@ public abstract class BasePage {
 
     String locatorDetails = locator.toString().replace("By.", "");
     log.info("Clearing input field -> [{}]", locatorDetails);
+    ReportLogger.info("Clearing input field -> [" + locatorDetails + "]");
+
     targetField.clear();
 
     String loggedValue = locatorDetails.toLowerCase().contains("password") ? "***" : valueToInput;

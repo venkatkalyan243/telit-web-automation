@@ -3,6 +3,7 @@ package com.telit.test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import com.telit.constant.AppMessages;
 import com.telit.model.UserEntity;
 import com.telit.page.AdminRoomsPage;
 import com.telit.util.SecretsManager;
@@ -13,11 +14,11 @@ public class LoginTest extends BaseTest {
 
   @Test(description = "Verify successful login with valid credentials")
   public void testLoginSuccess() {
-    var credentials = SecretsManager.getCredentials();
+    UserEntity validUser = SecretsManager.getValidUser();
 
     AdminRoomsPage adminRoomsPage = homePage
         .navigateToAdminLoginPage()
-        .loginAs(credentials.getUsername(), credentials.getPassword());
+        .loginAs(validUser);
 
     assertTrue(
         adminRoomsPage.isLoaded(),
@@ -30,12 +31,12 @@ public class LoginTest extends BaseTest {
       dataProvider = "getInvalidUsers",
       description = "Verify error message when logging in with invalid credentials"
   )
-  public void testLoginFailure(UserEntity user) {
+  public void testLoginFailure(UserEntity invalidUser) {
     String actualErrorMessage = homePage
         .navigateToAdminLoginPage()
-        .loginWithInvalidCredentials(user.getUsername(), user.getPassword())
+        .attemptLoginAs(invalidUser)
         .getAuthenticationFailureMessage();
 
-    assertEquals(actualErrorMessage, "Invalid credentials");
+    assertEquals(actualErrorMessage, AppMessages.INVALID_CREDENTIALS_ERROR);
   }
 }

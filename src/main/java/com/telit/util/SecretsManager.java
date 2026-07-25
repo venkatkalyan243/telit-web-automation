@@ -2,6 +2,7 @@ package com.telit.util;
 
 import com.telit.constant.EnvType;
 import com.telit.model.SecretsRoot;
+import com.telit.model.UserEntity;
 
 public class SecretsManager {
   private static SecretsRoot secrets;
@@ -16,7 +17,7 @@ public class SecretsManager {
     return secrets;
   }
 
-  public static SecretsRoot.EnvCredentials getCredentials() {
+  private static SecretsRoot.EnvCredentials getCredentials() {
     String ciUsername = System.getenv("TEST_USERNAME");
     String ciPassword = System.getenv("TEST_PASSWORD");
 
@@ -34,5 +35,10 @@ public class SecretsManager {
       throw new RuntimeException("CRITICAL: Credentials for environment [" + currentEnv + "] missing in local-secrets.json");
     }
     return credentials;
+  }
+
+  public static UserEntity getValidUser() {
+    var credentials = getCredentials();
+    return new UserEntity(credentials.getUsername(), credentials.getPassword());
   }
 }

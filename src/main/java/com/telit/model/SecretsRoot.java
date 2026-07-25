@@ -8,6 +8,9 @@ public class SecretsRoot {
   @JsonProperty("environments")
   private Map<String, EnvCredentials> envCredentials;
 
+  public SecretsRoot() {
+  }
+
   public Map<String, EnvCredentials> getEnvCredentials() {
     return envCredentials;
   }
@@ -29,6 +32,9 @@ public class SecretsRoot {
 
     @JsonProperty("password")
     private String password;
+
+    public EnvCredentials() {
+    }
 
     public String getUsername() {
       return username;

@@ -1,6 +1,8 @@
 package com.telit.page;
 
+import com.telit.model.UserEntity;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public final class AdminLoginPage extends BasePage {
   private final By usernameInput = By.id("username");
@@ -8,17 +10,17 @@ public final class AdminLoginPage extends BasePage {
   private final By loginButton = By.id("doLogin");
   private final By errorMessageLabel = By.xpath("//div[@class = 'alert alert-danger']");
 
-  public AdminLoginPage() {
-    super();
+  public AdminLoginPage(WebDriver driver) {
+    super(driver);
   }
 
-  public AdminRoomsPage loginAs(String username, String password) {
-    submitCredentials(username, password);
-    return new AdminRoomsPage();
+  public AdminRoomsPage loginAs(UserEntity user) {
+    submitCredentials(user.getUsername(), user.getPassword());
+    return new AdminRoomsPage(driver);
   }
 
-  public AdminLoginPage loginWithInvalidCredentials(String username, String password) {
-    submitCredentials(username, password);
+  public AdminLoginPage attemptLoginAs(UserEntity user) {
+    submitCredentials(user.getUsername(), user.getPassword());
     return this;
   }
 

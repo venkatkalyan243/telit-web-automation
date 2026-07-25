@@ -22,6 +22,9 @@ public class ConfigRoot {
   @JsonProperty("environments")
   private Map<String, EnvDetails> envDetails;
 
+  public ConfigRoot() {
+  }
+
   public String getReportFileName() {
     return reportFileName;
   }
@@ -83,6 +86,9 @@ public class ConfigRoot {
     @JsonProperty("headless")
     private boolean headless;
 
+    public DefaultSettings() {
+    }
+
     public BrowserType getBrowser() {
       return browser;
     }
@@ -120,6 +126,9 @@ public class ConfigRoot {
   public static class EnvDetails {
     @JsonProperty("url")
     private String url;
+
+    public EnvDetails() {
+    }
 
     public String getUrl() {
       return url;
