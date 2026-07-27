@@ -11,9 +11,10 @@
     <listener class-name="com.telit.listener.RetryListener"/>
   </listeners>
 
-  <test name="Login &amp; Authentication Regression">
+  <test name="Functional Regression">
     <classes>
       <class name="com.telit.test.LoginTest"/>
+      <class name="com.telit.test.RoomManagementTest"/>
     </classes>
   </test>
 </suite>

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,17 @@ public abstract class BasePage {
     log.info("Extracted text value: [{}]", text);
     ReportLogger.info("Extracted text [" + text + "] from -> [" + locatorDetails + "]");
     return text;
+  }
+
+  protected void selectByVisibleText(By locator, String value) {
+    WebElement dropdownElement = getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+    String locatorDetails = locator.toString().replace("By.", "");
+    log.info("Selecting [{}] from field -> [{}]", value, locatorDetails);
+    ReportLogger.info("Selecting [" + value + "] from field -> [" + locatorDetails + "]");
+
+    Select dropdown = new Select(dropdownElement);
+    dropdown.selectByVisibleText(value);
   }
 
   protected boolean isDisplayed(By locator) {
