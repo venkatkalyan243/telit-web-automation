@@ -8,7 +8,7 @@ public final class AdminLoginPage extends BasePage {
   private final By usernameInput = By.id("username");
   private final By passwordInput = By.id("password");
   private final By loginButton = By.id("doLogin");
-  private final By errorMessageLabel = By.xpath("//div[@class = 'alert alert-danger']");
+  private final By errorMessageLabel = By.cssSelector("div.alert.alert-danger");
 
   public AdminLoginPage(WebDriver driver) {
     super(driver);

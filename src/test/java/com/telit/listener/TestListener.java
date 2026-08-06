@@ -18,9 +18,16 @@ public class TestListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    log.info("Starting Test: [{}]", result.getName());
-    ReportManager.createExtentTest(result.getName());
-    ReportLogger.info("Starting execution of: " + result.getName());
+    String methodName = result.getName();
+    String testDescription = result.getMethod().getDescription();
+
+    log.info("Starting Test: [{}]", methodName);
+    ReportManager.createExtentTest(methodName);
+    ReportLogger.info(String.format("<b>Execution Started:</b> %s()", methodName));
+
+    if (testDescription != null && !testDescription.trim().isEmpty()) {
+      ReportLogger.info(String.format("<b>Scenario Description:</b> <i>%s</i>", testDescription));
+    }
   }
 
   @Override

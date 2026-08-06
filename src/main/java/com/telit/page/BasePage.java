@@ -3,6 +3,7 @@ package com.telit.page;
 import com.telit.util.ConfigManager;
 import com.telit.util.ReportLogger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -61,13 +62,15 @@ public abstract class BasePage {
 
   protected String getTextOf(By locator) {
     WebElement element = getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
-
     String locatorDetails = locator.toString().replace("By.", "");
-    log.info("Extracting text from element -> [{}]", locatorDetails);
-    String text = element.getText();
 
+    log.info("Extracting text from element -> [{}]", locatorDetails);
+    ReportLogger.info("Extracting text from element -> [" + locatorDetails + "]");
+
+    String text = element.getText();
     log.info("Extracted text value: [{}]", text);
     ReportLogger.info("Extracted text [" + text + "] from -> [" + locatorDetails + "]");
+
     return text;
   }
 
@@ -88,5 +91,30 @@ public abstract class BasePage {
     } catch (Exception e) {
       return false;
     }
+  }
+
+  protected String getAttributeValue(By locator, String attributeName) {
+    WebElement element = getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+    String locatorDetails = locator.toString().replace("By.", "");
+
+    log.info("Extracting attribute [{}] from element -> [{}]", attributeName, locatorDetails);
+    ReportLogger.info("Extracting attribute [" + attributeName + "] from element -> [" + locatorDetails + "]");
+
+    String attributeValue = element.getAttribute(attributeName);
+    log.info("Extracted attribute value: [{}]", attributeValue);
+    ReportLogger.info("Extracted attribute value: [" + attributeValue + "]");
+
+    return attributeValue;
+  }
+
+  protected void scrollTo(By locator) {
+    WebElement element = getWait().until(ExpectedConditions.presenceOfElementLocated(locator));
+    String locatorDetails = locator.toString().replace("By.", "");
+
+    log.info("Scrolling element into viewpoint center -> [{}]", locatorDetails);
+    ReportLogger.info("Scrolling element into viewpoint center -> [" + locatorDetails + "]");
+
+    ((JavascriptExecutor) driver)
+        .executeScript("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", element);
   }
 }

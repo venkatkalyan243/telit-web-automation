@@ -6,20 +6,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public final class AdminRoomsPage extends BasePage {
-  private final By messagesNavigationLink = By.xpath("//a[contains(@href, '/admin/message')]");
+  private final By messagesNavigationLink = By.cssSelector("a[href*='/admin/message']");
   private final By roomNameInput = By.id("roomName");
   private final By typeDropdown = By.id("type");
   private final By accessibleDropdown = By.id("accessible");
   private final By roomPriceInput = By.id("roomPrice");
   private final By createRoomButton = By.id("createRoom");
-  private final By errorMessageLabel = By.xpath("//div[@class = 'alert alert-danger']/p");
+  private final By errorMessageLabel = By.cssSelector("div.alert.alert-danger p");
 
   private By getFeatureCheckboxLocator(String featureName) {
-    return By.xpath(String.format("//label[contains(text(), '%s')]/preceding-sibling::input[@type='checkbox']", featureName));
+    return By.xpath(String.format(
+        "//label[text()='%s']/preceding-sibling::input[@type='checkbox']", featureName));
   }
 
   private By getRoomGridRowLocator(String roomNumber) {
-    return By.xpath(String.format("//div[@data-testid='roomlisting' and contains(., '%s')]", roomNumber));
+    return By.xpath(String.format("//div[@data-testid='roomlisting']//*[text()='%s']", roomNumber));
   }
 
   public AdminRoomsPage(WebDriver driver) {

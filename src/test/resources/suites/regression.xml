@@ -15,6 +15,7 @@
     <classes>
       <class name="com.telit.test.LoginTest"/>
       <class name="com.telit.test.RoomManagementTest"/>
+      <class name="com.telit.test.BookingTest"/>
     </classes>
   </test>
 </suite>
