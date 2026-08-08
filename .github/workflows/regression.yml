@@ -24,7 +24,8 @@ jobs:
     environment: ${{ github.event.inputs.env || 'QA' }}
 
     permissions:
-      contents: write
+      pages: write
+      id-token: write
 
     steps:
       - name: Clone Repository Source Code
@@ -55,12 +56,15 @@ jobs:
           find target/exec-outputs/ -type f -exec cp {} target/deploy-report/ \;
           ls -l target/deploy-report/
 
+      - name: Upload Pages Artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./target/deploy-report
+
       - name: Deploy Test Report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/deploy-report
+        uses: actions/deploy-pages@v4
 
       - name: Archive Consolidated Execution Outputs
         if: always()
