@@ -1,17 +1,20 @@
-package com.telit.test;
-
-import static org.testng.Assert.assertTrue;
+package com.telit.test.web;
 
 import com.telit.constant.AppMessages;
+import com.telit.constant.TestGroups;
 import com.telit.model.BookingEntity;
 import com.telit.page.BookingPage;
 import com.telit.util.DataReader;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class BookingTest extends BaseTest {
+public class BookingWebTest extends WebBaseTest {
 
-  @Test(description = "Verify successful room booking with valid data")
-  public void testBookRoomSuccess() {
+  @Test(
+      groups = {TestGroups.WEB, TestGroups.REGRESSION},
+      description = "Verify room booking via the Web UI"
+  )
+  public void bookRoomViaWeb() {
     BookingEntity booking = DataReader
         .fromJson("test-data/functional/create-booking-success.json", BookingEntity.class);
 
@@ -21,12 +24,16 @@ public class BookingTest extends BaseTest {
         .populateGuestInformation(booking)
         .clickReserveNow();
 
-    assertTrue(bookingPage.isBookingConfirmationVisible(),
+    Assert.assertTrue(bookingPage.isBookingConfirmationVisible(),
         "The successful booking confirmation alert was not rendered in the DOM view.");
   }
 
-  @Test(description = "Verify validation error messages are displayed when first name is missing during booking")
-  public void testBookRoomWithMissingFirstName() {
+  @Test(
+      groups = {TestGroups.WEB, TestGroups.REGRESSION},
+      description = "Verify validation error messages are displayed " +
+          "when first name is missing during booking via the Web UI"
+  )
+  public void bookRoomWithMissingFirstNameViaWeb() {
     BookingEntity invalidBooking = DataReader
         .fromJson("test-data/functional/create-booking-missing-first-name.json", BookingEntity.class);
 
@@ -37,10 +44,10 @@ public class BookingTest extends BaseTest {
         .clickReserveNow()
         .getBookingErrorMessages();
 
-    assertTrue(actualErrors.contains(AppMessages.FIRSTNAME_BLANK_ERROR),
+    Assert.assertTrue(actualErrors.contains(AppMessages.FIRSTNAME_BLANK_ERROR),
         "Validation Failure: Blank first name error message is missing.");
 
-    assertTrue(actualErrors.contains(AppMessages.FIRSTNAME_SIZE_ERROR),
+    Assert.assertTrue(actualErrors.contains(AppMessages.FIRSTNAME_SIZE_ERROR),
         "Validation Failure: First name size constraint error message is missing.");
   }
 }

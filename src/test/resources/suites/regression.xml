@@ -12,10 +12,10 @@
   </listeners>
 
   <test name="Functional Regression">
-    <classes>
-      <class name="com.telit.test.LoginTest"/>
-      <class name="com.telit.test.RoomManagementTest"/>
-      <class name="com.telit.test.BookingTest"/>
-    </classes>
+    <packages>
+      <package name="com.telit.test.web"/>
+      <package name="com.telit.test.api"/>
+      <package name="com.telit.test.hybrid"/>
+    </packages>
   </test>
 </suite>

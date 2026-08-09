@@ -1,20 +1,22 @@
-package com.telit.test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+package com.telit.test.web;
 
 import com.telit.constant.AppMessages;
+import com.telit.constant.TestGroups;
 import com.telit.model.RoomEntity;
 import com.telit.model.UserEntity;
 import com.telit.page.AdminRoomsPage;
 import com.telit.util.DataReader;
 import com.telit.util.SecretsManager;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class RoomManagementTest extends BaseTest {
+public class RoomManagementWebTest extends WebBaseTest {
 
-  @Test(description = "Verify successful room creation with valid data")
-  public void testCreateRoomSuccess() {
+  @Test(
+      groups = {TestGroups.WEB, TestGroups.REGRESSION},
+      description = "Verify room creation via the Web UI"
+  )
+  public void createRoomViaWeb() {
     UserEntity admin = SecretsManager.getValidUser();
 
     RoomEntity room = DataReader
@@ -25,15 +27,18 @@ public class RoomManagementTest extends BaseTest {
         .loginAs(admin)
         .submitRoomDetails(room);
 
-    assertTrue(
+    Assert.assertTrue(
         adminRoomsPage.isRoomCreated(room),
         String.format("FAIL: Room creation validation failed. " +
             "Room number [%s] was not found in the admin records grid view.", room.getRoomName())
     );
   }
 
-  @Test(description = "Verify error message when room name is missing during creation")
-  public void testCreateRoomWithMissingName() {
+  @Test(
+      groups = {TestGroups.WEB, TestGroups.REGRESSION},
+      description = "Verify error message when room name is missing during creation via the Web UI"
+  )
+  public void createRoomWithMissingNameViaWeb() {
     UserEntity admin = SecretsManager.getValidUser();
 
     RoomEntity invalidRoom = DataReader
@@ -45,6 +50,6 @@ public class RoomManagementTest extends BaseTest {
         .submitRoomDetails(invalidRoom)
         .getRoomCreationErrorMessage();
 
-    assertEquals(actualErrorMessage, AppMessages.ROOM_NAME_REQUIRED_ERROR);
+    Assert.assertEquals(actualErrorMessage, AppMessages.ROOM_NAME_REQUIRED_ERROR);
   }
 }
